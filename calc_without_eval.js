@@ -1,7 +1,5 @@
-import { add , sub, mul , div } from "./library-function.js";
 let screen = ''; //displays the content on calculator screen
 let arr = []; // holds operators and operands
-let result = []; //holds results of arithmetic operation
 
 let operands = document.querySelectorAll( '#number'); //targets all operands
 console.log( operands )
@@ -40,66 +38,54 @@ let equal = document.querySelector( '#equals' );
 equal.addEventListener( 'click' , () => {
     arr.push ( screen ); //push last operand in arr
     console.log (arr);
-    let i;
-    
-    for( i = 0 ; i < arr.length ; i++ ) {
-        if ( arr[i] == '+' ) {
-            let num1;
-            if ( result.length != 0 ) {
-                num1 = result[result.length - 1];
-            } else {
-                num1 = arr[i - 1];
-            }
-            console.log ( num1 ); //6
-            let num2 = arr[i + 1]
-            console.log ( num2 ); //4
-            let temp = add ( num1 , num2 );
-            result.push( temp );
-            //result=[3 , 6, 10]
+    function calculator ( arr ) {
+        if ( arr[ arr.length - 1] === "") {
+            return "invalid expression";
         }
-        else if ( arr[i] == '-' ) {
-            let num1;
-            if ( result.length != 0 ) {
-                num1 = result[result.length - 1];
+        let i;
+        //checking the presence of operator on odd indexes
+        for ( i = 1 ; i < arr.length ; i = i+2) {
+            if ( arr[i - 1] === "+" || arr[i - 1] === "-" || arr[i - 1] === "*" || arr[i - 1] === "/"  || arr[ i + 1 ] === "+" || arr[ i + 1 ] === "-" || arr[ i + 1 ] === "*" || arr[ i + 1 ] === "/" ) {
+                return "Invalid expression";
             } else {
-                num1 = arr[i - 1];
+                if ( arr[i] === '+') {
+                    arr[i+1] = ( Number( arr[i-1] ) + Number( arr[i+1] ) ).toFixed(2);
+                }
+        
+                else if ( arr[i] === '-') {
+                    arr[i+1] = ( Number ( arr[i-1] ) - Number ( arr[i+1] )).toFixed(2);
+                }
+        
+                else if ( arr[i] === '*') {
+                    arr[i+1] = ( Number ( arr[i-1] ) * Number ( arr[i+1] ) ).toFixed(2);
+                }
+        
+                else if ( arr[i] === '/') {
+                    if ( arr[i+1] === 0){
+                        return 'undefined';
+                    } else {
+                        arr[i+1] = ( Number ( arr[i-1] ) / Number ( arr[i+1] )).toFixed(2);
+                    }
+                }
+                //if no operator is there on odd index
+                else {
+                    console.log ('invalid expression');
+                    return 'invalid expression';
+                }
             }
-            let num2 = arr[i + 1]
-            let temp = sub ( num1 , num2 );
-            result.push( temp );
-        }
-        else if ( arr[i] == '*' ) {
-            let num1;
-            if ( result.length != 0 ) {
-                num1 = result[result.length - 1];
-            } else {
-                num1 = arr[i - 1];
-            }
-            let num2 = arr[i + 1]
-            let temp = mul ( num1 , num2 );
-            result.push( temp );
-        }
-        else if ( arr[i] == '/' ) {
-            let num1;
-            if ( result.length != 0 ) {
-                num1 = result[result.length - 1];
-            } else {
-                num1 = arr[i - 1];
-            }
-            let num2 = arr[i + 1]
-            let temp = div ( num1 , num2 );
-            result.push( temp );
-        }    
+        }  
+        return arr[arr.length - 1];
     }
-    document.getElementById('screen').value = result[result.length - 1];
-    screen = result[result.length - 1];
+    let result = calculator(arr);
+    
+    document.getElementById('screen').value = result;
+    screen = result;
     arr = [];
-    result=[];
+    
 });
 
 let del = document.querySelector('#del');
 del.addEventListener ( 'click' , () => {
-    result = [];
     arr = [];
     screen = '';
     document.getElementById( 'screen' ).value = '';
