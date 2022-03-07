@@ -1,0 +1,20 @@
+Edge Cases
+
+1. Minus operator at beginning 
+	if we have a '-' operator at beginning we consider the operand followed by it as negative number
+
+2. Plus operator at beginning
+	if we have a '+' operator at beginning, we ignore it and remove it from the expression.
+
+3. Two simultaneous operators
+	we check the presence of operator at any undesired position ( even indices viz, 0, 2, 4 ...). If found, return "Invalid expression!"
+	Presence of operator other than '+' and '-' at beginning is also handled by this test case.
+
+4. More than one decimal point in single operand
+	Prints "Invalid Number!" on calculator screen.
+
+5. Operator at end
+	Returns "Invalid Expression!"
+
+6. Directly clicking '=' button without entering operands
+	Reurns "Expression Not Entered!"
